@@ -1,0 +1,16 @@
+USTA TEKNIK - COKLU CIHAZ (TELEFON + TABLET ORTAK)
+
+1) Bu klasoru GitHub'a yukle (veya Render'da direkt bagla)
+2) Render.com -> New Web Service -> bu repoyu sec
+3) Build: npm install
+4) Start: npm start
+5) Cikan adresi telefon ve tablette Chrome ile ac
+   Ornek: https://usta-teknik-xxxx.onrender.com
+
+AYNI ADRESI iki cihazda ac = ortak veri.
+APK degil; internet sitesi olarak kullan.
+
+Yerelde denemek:
+  npm install
+  npm start
+  http://localhost:3000

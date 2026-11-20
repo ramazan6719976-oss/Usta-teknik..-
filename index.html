@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>Usta Teknik · Tablet</title>
+<style>
+:root {
+  --bg: #f4f1ea;
+  --surface: #fffdf8;
+  --line: #d9d2c4;
+  --ink: #1a2420;
+  --muted: #6b655c;
+  --primary: #1d4a42;
+  --accent: #c45c26;
+  --accent-fg: #fff8f3;
+  --touch: 48px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.45;
+  min-height: 100dvh;
+}
+button, input, select, textarea { font: inherit; }
+button, .btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+.app { max-width: 1400px; margin: 0 auto; padding: 16px 16px 110px; }
+.top {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  justify-content: space-between; margin-bottom: 14px;
+}
+.brand { display: flex; gap: 14px; align-items: center; min-width: 0; }
+.brand img { height: 64px; width: auto; border-radius: 10px; background: #000; object-fit: contain; padding: 2px; }
+.brand h1 { margin: 0; font-size: 1.4rem; }
+.brand p { margin: 4px 0 0; color: var(--muted); font-size: .95rem; }
+.shell { display: block; }
+.nav {
+  display: flex; flex-wrap: wrap; gap: 8px; overflow-x: visible; padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav button {
+  border: 1px solid var(--line); background: var(--surface);
+  border-radius: 999px; min-height: var(--touch); padding: 12px 18px;
+  white-space: nowrap; cursor: pointer; font-weight: 600; font-size: 1rem;
+}
+.nav button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 16px; padding: 18px; margin-bottom: 14px;
+}
+.grid2 { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+.grid4 { display: grid; gap: 14px; grid-template-columns: repeat(4, 1fr); }
+.field {
+  width: 100%; border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 16px; background: #fff; min-height: var(--touch); font-size: 1.05rem;
+}
+label.block { display: grid; gap: 6px; font-size: 1rem; }
+label.block span { color: var(--muted); font-weight: 600; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn {
+  border: 0; border-radius: 12px; min-height: var(--touch); padding: 12px 18px;
+  cursor: pointer; background: var(--primary); color: #fff; font-weight: 700; font-size: 1rem;
+}
+.btn.accent { background: var(--accent); color: var(--accent-fg); }
+.btn.line { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+.btn.quiet { background: transparent; color: var(--muted); border: 0; text-decoration: underline; min-height: auto; padding: 8px; }
+.btn.danger { background: #8b1e1e; }
+.muted { color: var(--muted); }
+.money { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 1.15rem; }
+.list { display: grid; gap: 12px; }
+.item h3 { margin: 0 0 6px; font-size: 1.15rem; }
+.item .meta { color: var(--muted); font-size: .95rem; }
+.badge {
+  display: inline-block; border-radius: 999px; padding: 6px 12px;
+  font-size: .85rem; background: #e8efe9; color: var(--primary); font-weight: 700;
+}
+.badge.warn { background: #f8e5d8; color: var(--accent); }
+table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+th, td { border: 1px solid var(--line); padding: 12px; text-align: left; }
+th { background: #f0ebe1; }
+.right { text-align: right; }
+.empty {
+  border: 1px dashed var(--line); border-radius: 16px; padding: 36px;
+  text-align: center; color: var(--muted); font-size: 1.05rem;
+}
+.sheet-actions { display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 12px; flex-wrap: wrap; }
+.photo-box{border:1px dashed var(--line);border-radius:12px;padding:12px;margin-top:10px;background:#fff}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.photo-item{display:grid;gap:6px}
+.photo-item img{width:100%;height:200px;object-fit:cover;border-radius:12px;border:1px solid var(--line);background:#f0f0f0;display:block}
+.photo-item img.broken{background:#eee;min-height:120px}
+.el2-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:10px}
+.el2-photos img{width:100%;height:220px;object-fit:cover;border-radius:12px;border:1px solid var(--line);background:#f0f0f0;display:block}
+.photo-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px}
+.photo-lightbox img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;background:#111}
+
+.sig-box{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;margin-top:12px}
+.sig-canvas{width:100%;height:180px;border:2px dashed #999;border-radius:10px;touch-action:none;background:#fff;display:block}
+.sig-canvas.active{border-color:var(--primary)}
+.a4-signs img.sig-img{max-width:100%;max-height:45px;display:block;margin-top:4px}
+.complete-box{border:2px solid var(--primary);border-radius:14px;padding:14px;background:#f3faf7;margin-top:12px}
+
+
+@media (max-width: 700px) {
+  .grid2, .grid4 { grid-template-columns: 1fr; }
+  .app { padding: 12px 12px 110px; }
+  .brand img { height: 52px; }
+}
+@media (min-width: 768px) {
+  .app { padding: 20px 24px 40px; }
+  .brand img { height: 72px; width: auto; object-fit: contain; }
+  .brand h1 { font-size: 1.55rem; }
+  .shell-tablet { display: grid; grid-template-columns: 220px 1fr; gap: 18px; align-items: start; }
+  .shell-tablet .nav {
+    display: grid; gap: 8px; overflow: visible; position: sticky; top: 16px;
+  }
+  .shell-tablet .nav button {
+    border-radius: 14px; text-align: left; width: 100%;
+  }
+  .list { grid-template-columns: 1fr 1fr; }
+  .list > .empty { grid-column: 1 / -1; }
+  .grid4 { grid-template-columns: repeat(4, 1fr); }
+}
+.a4 {
+  background: #fff; color: #111; border: 1px solid #111; padding: 10px;
+  max-width: 210mm; margin: 0 auto;
+}
+.a4 img.logo { display: block; width: 100%; max-height: 42mm; object-fit: contain; background: #000; }
+.a4-head, .a4-box, .a4-signs > div { border: 1px solid #111; }
+.a4-head { display: flex; justify-content: space-between; margin-top: 6px; }
+.a4-head > * { padding: 6px 8px; }
+.a4-head h2 { margin: 0; font-size: 14px; }
+.a4-meta { text-align: right; border-left: 1px solid #111; min-width: 110px; }
+.a4-parties { display: grid; grid-template-columns: 1fr 1fr; margin-top: 6px; }
+.a4-parties > div { border: 1px solid #111; padding: 6px 8px; }
+.a4-parties > div + div { border-left: 0; }
+.a4 table { margin-top: 6px; }
+.a4 th, .a4 td { border-color: #111; font-size: 11px; }
+.a4-total { width: 180px; margin-left: auto; margin-top: 6px; border: 1px solid #111; }
+.a4-total p { display: flex; justify-content: space-between; margin: 0; padding: 4px 8px; border-bottom: 1px solid #111; }
+.a4-total p:last-child { border: 0; font-weight: 700; background: #f2f2f2; }
+.a4-note { border: 1px solid #111; margin-top: 6px; padding: 6px 8px; font-size: 11px; }
+.a4-signs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+.a4-signs > div { min-height: 50px; padding: 6px; font-size: 11px; font-weight: 700; }
+.a4-foot { text-align: center; font-size: 10px; margin-top: 8px; border-top: 1px solid #111; padding-top: 6px; }
+@media print {
+  body * { visibility: hidden; }
+  #print-area, #print-area * { visibility: visible; }
+  #print-area { position: absolute; left: 0; top: 0; width: 100%; }
+  .sheet-actions, .nav, .top, .no-print { display: none !important; }
+  @page { size: A4; margin: 8mm; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <img src="logo.png" alt="Usta Teknik" />
+      <div>
+        <h1>Usta Teknik</h1>
+        <p>0543 307 40 18 · 0530 609 99 08 · Tablet</p>
+      </div>
+    </div>
+  </header>
+  <div class="shell shell-tablet">
+    <nav class="nav" id="nav"></nav>
+    <main id="main"></main>
+  </div>
+</div>
+
+<script>
+const PHONES = ["0543 307 40 18", "0530 609 99 08"];
+const DIVISIONS = [
+  { id: "elektronik", label: "Elektronik" },
+  { id: "beyaz", label: "Beyaz eşya" },
+  { id: "guvenlik", label: "Güvenlik" },
+  { id: "canak", label: "Çanak anten" },
+];
+const STATUSES = [
+  { id: "kabul", label: "Kabul" },
+  { id: "tamir", label: "Tamir" },
+  { id: "parca", label: "Parça bekliyor" },
+  { id: "teslim", label: "Teslim" },
+];
+const KEY = "usta-teknik-web-v1";
+
+const IS_FILE = location.protocol === "file:";
+const API = IS_FILE ? null : (location.origin + "/api/data");
+let saveTimer = null;
+let syncTimer = null;
+let syncing = false;
+
+async function loadFromServer() {
+  if (!API) return null;
+  try {
+    const r = await fetch(API + "?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) return null;
+    const data = await r.json();
+    return data;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function saveToServer(data) {
+  if (!API || syncing) return;
+  try {
+    syncing = true;
+    await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+  } catch (e) {
+  } finally {
+    syncing = false;
+  }
+}
+
+const VIEWS = [
+  { id: "ozet", label: "Özet" },
+  { id: "parca", label: "Parça" },
+  { id: "servis", label: "Servis" },
+  { id: "guvenlik", label: "Kamera / Güvenlik" },
+  { id: "ikinciel", label: "2. El Ürün" },
+  { id: "musteri", label: "Müşteri" },
+  { id: "kasa", label: "Kasa" },
+  { id: "teklif", label: "Teklif" },
+];
+const GV_STATUS = [
+  { id: "plan", label: "Planlandı" },
+  { id: "kurulum", label: "Kurulumda" },
+  { id: "test", label: "Test" },
+  { id: "tamam", label: "İşlem bitti" },
+];
+
+
+function uid() {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
+  return "id-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+}
+function money(n) {
+  return new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(Math.round(n || 0));
+}
+function day(iso) {
+  try { return new Date(iso).toLocaleDateString("tr-TR"); } catch { return ""; }
+}
+function num(v) {
+  const n = Number(String(v).replace(",", "."));
+  return Number.isFinite(n) ? n : 0;
+}
+function normalizeState(data) {
+  data = data || {};
+  return {
+    parts: data.parts || [],
+    jobs: data.jobs || [],
+    customers: data.customers || [],
+    debts: data.debts || [],
+    entries: data.entries || [],
+    quotes: data.quotes || [],
+    ikinciEl: data.ikinciEl || [],
+    guvenlik: data.guvenlik || [],
+    updatedAt: data.updatedAt || 0,
+  };
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return empty();
+    return normalizeState(JSON.parse(raw));
+  } catch {
+    return empty();
+  }
+}
+function empty() {
+  return { parts: [], jobs: [], customers: [], debts: [], entries: [], quotes: [], ikinciEl: [], guvenlik: [], updatedAt: 0 };
+}
+function save() {
+  try {
+    state.updatedAt = Date.now();
+    localStorage.setItem(KEY, JSON.stringify(state));
+  } catch (e) {
+    try {
+      alert("Kayıt yapılamadı (hafıza dolu olabilir). Bazı fotoğrafları silip tekrar deneyin.");
+    } catch (e2) {}
+  }
+  if (API) {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () { saveToServer(state); }, 500);
+  }
+}
+function pushCash(entry) {
+  if (!entry || !(entry.amount > 0)) return null;
+  if (!entry.id) entry.id = uid();
+  if (!entry.at) entry.at = new Date().toISOString();
+  if (!entry.title) entry.title = entry.note || "Kasa hareketi";
+  if (!entry.kind) entry.kind = "gelir";
+  // aynı id varsa güncelle
+  state.entries = state.entries.filter(e => e.id !== entry.id);
+  state.entries.unshift(entry);
+  return entry.id;
+}
+
+let state = load();
+let view = "ozet";
+let armedDelete = null;
+let formJobId = null;
+let formQuoteId = null;
+let formGvId = null;
+
+function jobTotal(job) {
+  const gross = (job.fee || 0) + (job.lines || []).reduce((s, l) => s + l.price * l.qty, 0);
+  const discount = Math.min(Math.max(0, job.discount || 0), gross);
+  return gross - discount;
+}
+
+
+function syncAllCash() {
+  if (!Array.isArray(state.entries)) state.entries = [];
+  // Servis fişleri
+  for (const job of state.jobs || []) {
+    const total = jobTotal(job);
+    if (total > 0) postJobCash(job);
+    else if (job.cashId) {
+      state.entries = state.entries.filter(e => e.id !== job.cashId);
+      job.cashId = undefined;
+    }
+  }
+  // Güvenlik — sadece tamam olanlar veya ucreti olanlar
+  for (const g of state.guvenlik || []) {
+    if ((g.fee || 0) > 0 && (g.status === "tamam" || g.cashId)) {
+      const id = g.cashId || uid();
+      g.cashId = id;
+      pushCash({
+        id,
+        kind: "gelir",
+        category: "Güvenlik",
+        title: [g.no, g.customer, "Kamera"].filter(Boolean).join(" · "),
+        amount: g.fee || 0,
+      });
+    }
+  }
+  // 2. El satılanlar
+  for (const it of state.ikinciEl || []) {
+    if (it.status === "satildi" && (it.price || 0) > 0) {
+      const id = it.cashId || uid();
+      it.cashId = id;
+      pushCash({
+        id,
+        kind: "gelir",
+        category: "2. El",
+        title: "2. El · " + (it.title || ""),
+        amount: it.price || 0,
+      });
+    }
+  }
+}
+
+function postJobCash(job) {
+  const total = jobTotal(job);
+  if (total <= 0) {
+    if (job.cashId) state.entries = state.entries.filter(e => e.id !== job.cashId);
+    job.cashId = undefined;
+    return;
+  }
+  const id = job.cashId || uid();
+  job.cashId = id;
+  pushCash({
+    id,
+    kind: "gelir",
+    category: "Servis",
+    title: [job.no, job.customer, job.device || job.work].filter(Boolean).join(" · "),
+    amount: total,
+    at: job.openedAt || new Date().toISOString(),
+  });
+}
+
+function nextJobNo() {
+  let max = 1000;
+  for (const j of state.jobs) {
+    const n = Number(String(j.no).replace(/\D/g, ""));
+    if (Number.isFinite(n)) max = Math.max(max, n);
+  }
+  return "SF-" + (max + 1);
+}
+function nextGvNo() {
+  let max = 5000;
+  for (const g of (state.guvenlik || [])) {
+    const n = Number(String(g.no).replace(/\D/g, ""));
+    if (Number.isFinite(n)) max = Math.max(max, n);
+  }
+  return "GK-" + (max + 1);
+}
+function nextQuoteNo() {
+  let max = 2400;
+  for (const q of state.quotes) {
+    const n = Number(String(q.no).replace(/\D/g, ""));
+    if (Number.isFinite(n)) max = Math.max(max, n);
+  }
+  return "TK-" + (max + 1);
+}
+
+function el(html) {
+  const t = document.createElement("template");
+  t.innerHTML = html.trim();
+  return t.content.firstElementChild;
+}
+
+function render() {
+  const nav = document.getElementById("nav");
+  nav.innerHTML = "";
+  for (const v of VIEWS) {
+    const b = document.createElement("button");
+    b.textContent = v.label;
+    if (v.id === view) b.classList.add("active");
+    b.onclick = () => { view = v.id; formJobId = null; formQuoteId = null; formGvId = null; armedDelete = null; render(); };
+    nav.appendChild(b);
+  }
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+  if (view === "ozet") main.appendChild(viewOzet());
+  if (view === "parca") main.appendChild(viewParca());
+  if (view === "servis") main.appendChild(viewServis());
+  if (view === "guvenlik") main.appendChild(viewGuvenlik());
+  if (view === "ikinciel") main.appendChild(viewIkinciEl());
+  if (view === "musteri") main.appendChild(viewMusteri());
+  if (view === "kasa") main.appendChild(viewKasa());
+  if (view === "teklif") main.appendChild(viewTeklif());
+}
+
+function viewOzet() {
+  const open = state.jobs.filter(j => j.status !== "teslim").length;
+  const stock = state.parts.reduce((s, p) => s + (p.stock || 0), 0);
+  const gelir = state.entries.filter(e => e.kind === "gelir").reduce((s, e) => s + e.amount, 0);
+  const gider = state.entries.filter(e => e.kind === "gider").reduce((s, e) => s + e.amount, 0);
+  const debt = state.debts.filter(d => !d.paid).reduce((s, d) => s + d.amount, 0);
+  const el2 = (state.ikinciEl || []).filter(x => x.status === "satilik").length;
+  const box = el(`<div>
+    <div class="grid2">
+      <div class="card"><div class="muted">Açık servis</div><div style="font-size:1.6rem;font-weight:700">${open}</div></div>
+      <div class="card"><div class="muted">Parça stok adedi</div><div style="font-size:1.6rem;font-weight:700">${stock}</div></div>
+      <div class="card"><div class="muted">Kasa bakiyesi</div><div class="money" style="font-size:1.4rem">${money(gelir - gider)}</div></div>
+      <div class="card"><div class="muted">2. El satılık</div><div style="font-size:1.6rem;font-weight:700">${el2}</div></div>
+    </div>
+    <div class="card"><p class="muted" style="margin:0">Veriler bu tarayıcıda saklanır. 2. El menüsünden foto ve fiyat ekleyebilirsiniz.</p></div>
+  </div>`);
+  return box;
+}
+
+function viewParca() {
+  const root = el(`<div>
+    <div class="card">
+      <h2 style="margin:0 0 10px">Yeni parça</h2>
+      <form id="part-form" class="grid2"></form>
+    </div>
+    <div class="list" id="part-list"></div>
+  </div>`);
+  const form = root.querySelector("#part-form");
+  form.innerHTML = `
+    <label class="block"><span>Ad</span><input class="field" name="name" required></label>
+    <label class="block"><span>Kod / SKU</span><input class="field" name="sku"></label>
+    <label class="block"><span>Bölüm</span>
+      <select class="field" name="division">${DIVISIONS.filter(d => d.id !== "guvenlik").map(d => `<option value="${d.id}">${d.label}</option>`).join("")}</select>
+    </label>
+    <label class="block"><span>Stok</span><input class="field" name="stock" inputmode="numeric" value="0"></label>
+    <label class="block"><span>Fiyat (TL)</span><input class="field" name="price" inputmode="numeric" value="0"></label>
+    <div class="row"><button class="btn accent" type="submit">Parça ekle</button></div>`;
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    state.parts.unshift({
+      id: uid(),
+      name: String(fd.get("name") || "").trim(),
+      sku: String(fd.get("sku") || "").trim(),
+      division: String(fd.get("division")),
+      stock: Math.max(0, Math.round(num(fd.get("stock")))),
+      price: Math.max(0, Math.round(num(fd.get("price")))),
+    });
+    save(); render();
+  };
+  const list = root.querySelector("#part-list");
+  if (!state.parts.length) list.appendChild(el(`<div class="empty">Henüz parça yok.</div>`));
+  for (const p of state.parts) {
+    const div = DIVISIONS.find(d => d.id === p.division)?.label || p.division;
+    const item = el(`<div class="card item">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <h3>${escapeHtml(p.name)}</h3>
+          <div class="meta">${escapeHtml(p.sku || "—")} · ${div} · Stok ${p.stock}</div>
+        </div>
+        <div class="money">${money(p.price)}</div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn line" data-in>+1 stok</button>
+        <button class="btn line" data-out>-1 stok</button>
+        <button class="btn quiet" data-del>${armedDelete === p.id ? "Silinsin mi?" : "Sil"}</button>
+      </div>
+    </div>`);
+    item.querySelector("[data-in]").onclick = () => { p.stock += 1; save(); render(); };
+    item.querySelector("[data-out]").onclick = () => { p.stock = Math.max(0, p.stock - 1); save(); render(); };
+    item.querySelector("[data-del]").onclick = () => {
+      if (armedDelete !== p.id) { armedDelete = p.id; render(); return; }
+      state.parts = state.parts.filter(x => x.id !== p.id);
+      armedDelete = null; save(); render();
+    };
+    list.appendChild(item);
+  }
+  return root;
+}
+
+function viewServis() {
+  if (formJobId) {
+    const job = state.jobs.find(j => j.id === formJobId);
+    if (job) return serviceForm(job);
+  }
+  const root = el(`<div>
+    <div class="card">
+      <h2 style="margin:0 0 10px">Yeni servis fişi</h2>
+      <form id="job-form" class="grid2"></form>
+    </div>
+    <div class="list" id="job-list"></div>
+  </div>`);
+  const form = root.querySelector("#job-form");
+  form.innerHTML = `
+    <label class="block"><span>Müşteri</span><input class="field" name="customer" list="custs" required></label>
+    <label class="block"><span>Telefon</span><input class="field" name="phone" inputmode="tel"></label>
+    <label class="block" style="grid-column:1/-1"><span>Adres</span><input class="field" name="address"></label>
+    <label class="block"><span>Bölüm</span>
+      <select class="field" name="division">${DIVISIONS.filter(d => d.id !== "guvenlik").map(d => `<option value="${d.id}">${d.label}</option>`).join("")}</select>
+    </label>
+    <label class="block"><span>Cihaz</span><input class="field" name="device" required></label>
+    <label class="block"><span>Marka</span><input class="field" name="brand"></label>
+    <label class="block"><span>Model</span><input class="field" name="model"></label>
+    <label class="block" style="grid-column:1/-1"><span>Arıza</span><input class="field" name="fault" required></label>
+    <label class="block"><span>İşçilik (TL)</span><input class="field" name="fee" inputmode="numeric" value="0"></label>
+    <div class="row"><button class="btn accent" type="submit">Fiş aç</button></div>
+    <datalist id="custs">${state.customers.map(c => `<option value="${escapeHtml(c.name)}"></option>`).join("")}</datalist>`;
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const customer = String(fd.get("customer") || "").trim();
+    const phone = String(fd.get("phone") || "").trim();
+    const address = String(fd.get("address") || "").trim();
+    const job = {
+      id: uid(),
+      no: nextJobNo(),
+      customer, phone, address,
+      division: String(fd.get("division")),
+      device: String(fd.get("device") || "").trim(),
+      brand: String(fd.get("brand") || "").trim(),
+      model: String(fd.get("model") || "").trim(),
+      fault: String(fd.get("fault") || "").trim(),
+      serial: "", accessories: "", work: "",
+      fee: Math.max(0, Math.round(num(fd.get("fee")))),
+      discount: 0,
+      lines: [],
+      photos: [],
+      status: "kabul",
+      openedAt: new Date().toISOString(),
+    };
+    rememberCustomer(customer, phone, address);
+    postJobCash(job);
+    state.jobs.unshift(job);
+    save(); render();
+  };
+  const list = root.querySelector("#job-list");
+  if (!state.jobs.length) list.appendChild(el(`<div class="empty">Henüz servis fişi yok.</div>`));
+  for (const job of state.jobs) {
+    const st = STATUSES.find(s => s.id === job.status)?.label || job.status;
+    const item = el(`<div class="card item">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <div class="meta">${escapeHtml(job.no)} · ${day(job.openedAt)}</div>
+          <h3>${escapeHtml(job.customer)}</h3>
+          <div class="meta">${escapeHtml(job.phone || "Telefon yok")}</div>
+          <div>${escapeHtml(job.device)} · ${escapeHtml([job.brand, job.model].filter(Boolean).join(" "))}</div>
+          <div class="muted" style="margin-top:4px">${escapeHtml(job.fault)}</div>
+        </div>
+        <span class="badge ${job.status === "teslim" ? "" : "warn"}">${st}</span>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <label class="block" style="min-width:100px"><span>İşçilik</span>
+          <input class="field" data-fee inputmode="numeric" value="${job.fee || 0}">
+        </label>
+        <label class="block" style="min-width:100px"><span>İndirim</span>
+          <input class="field" data-disc inputmode="numeric" value="${job.discount || 0}">
+        </label>
+        <div><div class="muted">Ödenecek</div><div class="money">${money(jobTotal(job))}</div></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        ${STATUSES.map(s => `<button class="btn ${job.status === s.id ? "accent" : "line"}" data-st="${s.id}">${s.label}</button>`).join("")}
+      </div>
+      ${photoStrip(job)}
+      ${partEditor(job)}
+      <div class="row" style="margin-top:10px">
+        <button class="btn" data-form>Formu çıkar</button>
+        <button class="btn line" data-cash>Kasaya yaz</button>
+        <button class="btn" data-wa style="background:#128C7E">WhatsApp</button>
+        <button class="btn danger" data-del>${armedDelete === job.id ? "Emin misin? Sil" : "Sil"}</button>
+      </div>
+    </div>`);
+    item.querySelector("[data-fee]").onchange = (ev) => {
+      job.fee = Math.max(0, Math.round(num(ev.target.value)));
+      postJobCash(job); save(); render();
+    };
+    item.querySelector("[data-disc]").onchange = (ev) => {
+      job.discount = Math.max(0, Math.round(num(ev.target.value)));
+      postJobCash(job); save(); render();
+    };
+    item.querySelectorAll("[data-st]").forEach(btn => {
+      btn.onclick = () => { job.status = btn.getAttribute("data-st"); postJobCash(job); save(); render(); };
+    });
+    item.querySelector("[data-form]").onclick = () => { formJobId = job.id; render(); };
+    item.querySelector("[data-cash]").onclick = () => {
+      postJobCash(job);
+      save();
+      const t = jobTotal(job);
+      if (t <= 0) alert("Tutar 0 — önce işçilik veya parça girin");
+      else alert("Kasaya yazıldı: " + money(t));
+      render();
+    };
+    item.querySelector("[data-wa]").onclick = () => openWhatsAppForJob(job);
+    wirePhotos(item, job);
+    wirePartEditor(item, job);
+    item.querySelector("[data-del]").onclick = () => {
+      if (armedDelete !== job.id) { armedDelete = job.id; render(); return; }
+      state.entries = state.entries.filter(e => e.id !== job.cashId);
+      state.jobs = state.jobs.filter(j => j.id !== job.id);
+      armedDelete = null; save(); render();
+    };
+    list.appendChild(item);
+  }
+  return root;
+}
+
+function serviceForm(job) {
+  const div = DIVISIONS.find(d => d.id === job.division)?.label || "";
+  const partsTotal = (job.lines || []).reduce((s, l) => s + l.price * l.qty, 0);
+  const gross = partsTotal + (job.fee || 0);
+  const rows = (job.lines || []).map((l, i) =>
+    `<tr><td>${i + 1}</td><td>${escapeHtml(l.name)}</td><td class="right">${l.qty}</td><td class="right">${money(l.price)}</td><td class="right">${money(l.price * l.qty)}</td></tr>`
+  ).join("") + `<tr><td>${(job.lines || []).length + 1}</td><td>İşçilik</td><td class="right">1</td><td class="right">${money(job.fee || 0)}</td><td class="right">${money(job.fee || 0)}</td></tr>`;
+
+  const root = el(`<div>
+    <div class="sheet-actions no-print">
+      <button class="btn line" id="back">Listeye dön</button>
+      <button class="btn accent" id="print">Yazdır</button>
+      <button class="btn" id="wa-job" style="background:#128C7E">WhatsApp bilgilendir</button>
+      <button class="btn danger" id="del-job">${armedDelete === job.id ? "Emin misin? Sil" : "Fişi sil"}</button>
+    </div>
+    <div id="print-area" class="a4">
+      <img class="logo" src="logo-banner.png" alt="Usta Teknik" />
+      <div class="a4-head">
+        <div>
+          <div class="muted" style="font-size:10px;text-transform:uppercase">Usta Teknik ve Elektronik</div>
+          <h2>Servis Faturası</h2>
+          <div style="font-size:11px">Garanti süresi: 6 ay (işçilik / yapılan işlem)</div>
+        </div>
+        <div class="a4-meta">
+          <div><strong>Belge no</strong><br>${escapeHtml(job.no)}</div>
+          <div style="margin-top:6px"><strong>Tarih</strong><br>${day(job.openedAt)}</div>
+        </div>
+      </div>
+      <div class="a4-parties">
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase">Satıcı</div>
+          <strong>Usta Teknik ve Elektronik</strong><br>
+          Çanak anten · TV · Beyaz eşya · Güvenlik<br>
+          ${PHONES.join(" · ")}
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase">Alıcı</div>
+          <strong>${escapeHtml(job.customer)}</strong><br>
+          ${escapeHtml(job.phone || "—")}<br>
+          ${escapeHtml(job.address || "—")}
+        </div>
+      </div>
+      <div class="a4-parties">
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase">Cihaz</div>
+          ${escapeHtml(div)} · ${escapeHtml(job.device)}<br>
+          ${escapeHtml([job.brand, job.model].filter(Boolean).join(" ") || "—")}
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase">Seri / aksesuar</div>
+          <input class="field" style="margin-top:4px" data-serial placeholder="Seri no" value="${escapeHtml(job.serial || "")}">
+          <input class="field" style="margin-top:4px" data-acc placeholder="Aksesuar" value="${escapeHtml(job.accessories || "")}">
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>#</th><th>Mal / hizmet</th><th class="right">Miktar</th><th class="right">Birim</th><th class="right">Tutar</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="a4-total">
+        <p><span>Ara toplam</span><span>${money(gross)}</span></p>
+        <p><span>İndirim</span><span>${money(job.discount || 0)}</span></p>
+        <p><span>Genel toplam</span><span>${money(jobTotal(job))}</span></p>
+      </div>
+      <div class="a4-note">
+        <strong>Arıza:</strong> ${escapeHtml(job.fault)}<br>
+        <strong>Yapılan işlem:</strong>
+        <textarea class="field" data-work style="margin-top:4px;min-height:60px" placeholder="Yapılan işlem">${escapeHtml(job.work || "")}</textarea>
+        <div style="margin-top:6px">Garanti süresi 6 aydır. Tutarlar TL cinsindendir. KDV dahil değildir.</div>
+      </div>
+      <div class="a4-signs">
+        <div>Teslim eden<br><span style="font-weight:400;font-size:10px">Usta Teknik</span></div>
+        <div>Müşteri imzası
+          ${job.signature ? `<img class="sig-img" src="${job.signature}" alt="imza">` : `<div style="height:40px"></div>`}
+        </div>
+      </div>
+      <div class="a4-foot">Güvenilir Servis · Profesyonel Çözüm · ${PHONES.join(" · ")}</div>
+    </div>
+    <div class="complete-box no-print">
+      <strong>İşlem tamam formu</strong>
+      <div class="muted" style="margin-top:4px">Güvenlik sistemi / servis bitince müşteri tablete imza atsın.</div>
+      <label class="block" style="margin-top:10px"><span>Tamamlanan iş özeti</span>
+        <textarea class="field" data-complete-note style="min-height:70px" placeholder="Örn. Kamera + DVR kuruldu, kayıt test edildi">${escapeHtml(job.completeNote || job.work || "")}</textarea>
+      </label>
+      <div class="sig-box">
+        <div class="row" style="justify-content:space-between;margin-bottom:8px">
+          <strong>Müşteri imzası (tablete parmakla)</strong>
+          ${job.signature ? '<span class="badge">İmza kayıtlı</span>' : '<span class="muted">İmza bekleniyor</span>'}
+        </div>
+        <canvas class="sig-canvas" id="sig-pad"></canvas>
+        <div class="row" style="margin-top:10px">
+          <button type="button" class="btn line" id="sig-clear">İmzayı temizle</button>
+          <button type="button" class="btn" id="sig-save">İmzayı kaydet</button>
+          <button type="button" class="btn accent" id="job-complete">İşlem tamam · Teslim</button>
+        </div>
+      </div>
+    </div>
+    ${photoStrip(job)}
+    ${partEditor(job)}
+  </div>`);
+  root.querySelector("#back").onclick = () => { formJobId = null; armedDelete = null; render(); };
+  root.querySelector("#print").onclick = () => doPrint();
+  root.querySelector("#wa-job").onclick = () => openWhatsAppForJob(job);
+  wirePhotos(root, job);
+  wirePartEditor(root, job);
+  root.querySelector("#del-job").onclick = () => {
+    if (armedDelete !== job.id) { armedDelete = job.id; render(); return; }
+    state.entries = state.entries.filter(e => e.id !== job.cashId);
+    state.jobs = state.jobs.filter(j => j.id !== job.id);
+    formJobId = null; armedDelete = null; save(); render();
+  };
+  root.querySelector("[data-serial]").onchange = (e) => { job.serial = e.target.value; save(); };
+  root.querySelector("[data-acc]").onchange = (e) => { job.accessories = e.target.value; save(); };
+  root.querySelector("[data-work]").onchange = (e) => { job.work = e.target.value; postJobCash(job); save(); };
+  const noteEl = root.querySelector("[data-complete-note]");
+  if (noteEl) noteEl.onchange = (e) => { job.completeNote = e.target.value; if (!job.work) job.work = e.target.value; save(); };
+  const pad = wireSignaturePad(root.querySelector("#sig-pad"), job);
+  root.querySelector("#sig-clear").onclick = () => { pad && pad.clear(); job.signature = ""; save(); };
+  root.querySelector("#sig-save").onclick = () => {
+    if (!pad) return;
+    const data = pad.save();
+    if (!data) { alert("İmza kaydedilemedi"); return; }
+    job.signature = data;
+    job.signedAt = new Date().toISOString();
+    save();
+    alert("İmza kaydedildi");
+    render();
+  };
+  root.querySelector("#job-complete").onclick = () => {
+    if (noteEl) {
+      job.completeNote = noteEl.value;
+      if (noteEl.value) job.work = noteEl.value;
+    }
+    if (pad) {
+      const data = pad.save();
+      if (data) { job.signature = data; job.signedAt = new Date().toISOString(); }
+    }
+    if (!job.signature) {
+      if (!confirm("İmza yok. Yine de işlem tamam densin mi?")) return;
+    }
+    job.status = "teslim";
+    postJobCash(job);
+    save();
+    alert("İşlem tamam · fiş teslim olarak işaretlendi");
+    render();
+  };
+  return root;
+}
+
+function rememberCustomer(name, phone, address) {
+  if (!name) return;
+  const known = state.customers.find(c =>
+    (phone && c.phone.replace(/\D/g, "") === phone.replace(/\D/g, "")) ||
+    c.name.toLocaleLowerCase("tr-TR") === name.toLocaleLowerCase("tr-TR")
+  );
+  if (known) {
+    known.name = name;
+    if (phone) known.phone = phone;
+    if (address) known.address = address;
+  } else {
+    state.customers.unshift({ id: uid(), name, phone, address });
+  }
+}
+
+function viewMusteri() {
+  const root = el(`<div>
+    <div class="card">
+      <h2 style="margin:0 0 10px">Yeni müşteri</h2>
+      <form id="c-form" class="grid2">
+        <label class="block"><span>Ad</span><input class="field" name="name" required></label>
+        <label class="block"><span>Telefon</span><input class="field" name="phone" inputmode="tel"></label>
+        <label class="block" style="grid-column:1/-1"><span>Adres</span><input class="field" name="address"></label>
+        <div><button class="btn accent" type="submit">Müşteri ekle</button></div>
+      </form>
+    </div>
+    <div class="list" id="c-list"></div>
+  </div>`);
+  root.querySelector("#c-form").onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    state.customers.unshift({
+      id: uid(),
+      name: String(fd.get("name") || "").trim(),
+      phone: String(fd.get("phone") || "").trim(),
+      address: String(fd.get("address") || "").trim(),
+    });
+    save(); render();
+  };
+  const list = root.querySelector("#c-list");
+  if (!state.customers.length) list.appendChild(el(`<div class="empty">Henüz müşteri yok.</div>`));
+  for (const c of state.customers) {
+    const openDebt = state.debts.filter(d => d.customerId === c.id && !d.paid).reduce((s, d) => s + d.amount, 0);
+    const item = el(`<div class="card item">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <h3>${escapeHtml(c.name)}</h3>
+          <div class="meta">${escapeHtml(c.phone || "Telefon yok")}</div>
+          <div class="meta">${escapeHtml(c.address || "")}</div>
+        </div>
+        <div class="right"><div class="muted">Açık borç</div><div class="money">${money(openDebt)}</div></div>
+      </div>
+      <form class="row" style="margin-top:10px" data-debt>
+        <input class="field" name="note" placeholder="Borç açıklaması" style="flex:1;min-width:120px">
+        <input class="field" name="amount" placeholder="Tutar" inputmode="numeric" style="width:110px" required>
+        <button class="btn line" type="submit">Borç ekle</button>
+        <button class="btn quiet" type="button" data-del>Sil</button>
+      </form>
+      <div data-debts style="margin-top:8px"></div>
+    </div>`);
+    item.querySelector("[data-debt]").onsubmit = (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const amount = Math.round(num(fd.get("amount")));
+      if (amount <= 0) return;
+      state.debts.unshift({
+        id: uid(), customerId: c.id, amount,
+        note: String(fd.get("note") || "").trim(),
+        at: new Date().toISOString(), paid: false,
+      });
+      save(); render();
+    };
+    item.querySelector("[data-del]").onclick = () => {
+      state.customers = state.customers.filter(x => x.id !== c.id);
+      state.debts = state.debts.filter(d => d.customerId !== c.id);
+      save(); render();
+    };
+    const box = item.querySelector("[data-debts]");
+    for (const d of state.debts.filter(x => x.customerId === c.id)) {
+      const row = el(`<div class="row" style="justify-content:space-between;font-size:.9rem;margin-top:4px">
+        <span>${d.paid ? "Tahsil" : "Borç"} · ${escapeHtml(d.note || "—")} · ${day(d.at)}</span>
+        <span class="row">
+          <span class="money">${money(d.amount)}</span>
+          ${d.paid ? "" : `<button class="btn quiet" data-pay>Tahsil et</button>`}
+          <button class="btn quiet" data-drop>Sil</button>
+        </span>
+      </div>`);
+      const pay = row.querySelector("[data-pay]");
+      if (pay) pay.onclick = () => {
+        d.paid = true;
+        state.entries.unshift({
+          id: uid(), kind: "gelir", category: "Servis",
+          title: `Tahsilat · ${c.name}${d.note ? " · " + d.note : ""}`,
+          amount: d.amount, at: new Date().toISOString(),
+        });
+        save(); render();
+      };
+      row.querySelector("[data-drop]").onclick = () => {
+        state.debts = state.debts.filter(x => x.id !== d.id);
+        save(); render();
+      };
+      box.appendChild(row);
+    }
+    list.appendChild(item);
+  }
+  return root;
+}
+
+function viewKasa() {
+  syncAllCash();
+  save();
+  const gelir = state.entries.filter(e => e.kind === "gelir").reduce((s, e) => s + e.amount, 0);
+  const gider = state.entries.filter(e => e.kind === "gider").reduce((s, e) => s + e.amount, 0);
+  const root = el(`<div>
+    <div class="grid2">
+      <div class="card"><div class="muted">Gelir</div><div class="money">${money(gelir)}</div></div>
+      <div class="card"><div class="muted">Gider</div><div class="money">${money(gider)}</div></div>
+      <div class="card" style="grid-column:1/-1"><div class="muted">Bakiye</div><div class="money" style="font-size:1.4rem">${money(gelir - gider)}</div></div>
+    </div>
+    <div class="card">
+      <h2 style="margin:0 0 10px">Kasa hareketi</h2>
+      <form id="k-form" class="grid2">
+        <label class="block"><span>Tür</span>
+          <select class="field" name="kind"><option value="gelir">Gelir</option><option value="gider">Gider</option></select>
+        </label>
+        <label class="block"><span>Tutar</span><input class="field" name="amount" inputmode="numeric" required></label>
+        <label class="block" style="grid-column:1/-1"><span>Açıklama</span><input class="field" name="title" required></label>
+        <div><button class="btn accent" type="submit">Kaydet</button></div>
+      </form>
+    </div>
+    <div class="list" id="k-list"></div>
+  </div>`);
+  root.querySelector("#k-form").onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const amount = Math.round(num(fd.get("amount")));
+    if (amount <= 0) return;
+    pushCash({
+      id: uid(),
+      kind: String(fd.get("kind")),
+      category: "Manuel",
+      title: String(fd.get("title") || "").trim(),
+      amount,
+    });
+    save(); render();
+  };
+  const list = root.querySelector("#k-list");
+  if (!state.entries.length) list.appendChild(el(`<div class="empty">Kasa boş. Serviste işçilik girin veya burada manuel gelir ekleyin.</div>`));
+  for (const e of state.entries) {
+    const title = e.title || e.note || "Hareket";
+    const cat = e.category ? (" · " + e.category) : "";
+    const item = el(`<div class="card item row" style="justify-content:space-between">
+      <div>
+        <h3>${escapeHtml(title)}</h3>
+        <div class="meta">${e.kind === "gelir" ? "Gelir" : "Gider"}${escapeHtml(cat)} · ${day(e.at)}</div>
+      </div>
+      <div class="row">
+        <div class="money">${e.kind === "gider" ? "-" : ""}${money(e.amount)}</div>
+        <button class="btn quiet" data-del>Sil</button>
+      </div>
+    </div>`);
+    item.querySelector("[data-del]").onclick = () => {
+      state.entries = state.entries.filter(x => x.id !== e.id);
+      const job = state.jobs.find(j => j.cashId === e.id);
+      if (job) job.cashId = undefined;
+      const gv = (state.guvenlik || []).find(j => j.cashId === e.id);
+      if (gv) gv.cashId = undefined;
+      const el2 = (state.ikinciEl || []).find(j => j.cashId === e.id);
+      if (el2) el2.cashId = undefined;
+      save(); render();
+    };
+    list.appendChild(item);
+  }
+  return root;
+}
+
+
+
+function viewGuvenlik() {
+  if (!Array.isArray(state.guvenlik)) state.guvenlik = [];
+  if (formGvId) {
+    const g = state.guvenlik.find(x => x.id === formGvId);
+    if (g) return guvenlikForm(g);
+  }
+  const root = el(`<div>
+    <div class="card">
+      <h2 style="margin:0 0 8px">Yeni güvenlik kamera işi</h2>
+      <p class="muted" style="margin:0 0 12px">Bu bölüm servisten ayrıdır. Kurulum bitince ayrı işlem tamam formu + müşteri imzası.</p>
+      <form id="gv-form" class="grid2">
+        <label class="block"><span>Müşteri</span><input class="field" name="customer" required></label>
+        <label class="block"><span>Telefon</span><input class="field" name="phone" inputmode="tel"></label>
+        <label class="block" style="grid-column:1/-1"><span>Adres / yer</span><input class="field" name="address"></label>
+        <label class="block"><span>Kamera adedi</span><input class="field" name="camCount" inputmode="numeric" value="4"></label>
+        <label class="block"><span>Kayıt cihazı (DVR/NVR)</span><input class="field" name="dvr" placeholder="Örn. 8 kanal AHD"></label>
+        <label class="block"><span>Kanal / harddisk</span><input class="field" name="channel" placeholder="Örn. 1TB"></label>
+        <label class="block"><span>Ücret (TL)</span><input class="field" name="fee" inputmode="numeric" value="0"></label>
+        <label class="block" style="grid-column:1/-1"><span>Kurulum notu</span>
+          <textarea class="field" name="note" style="min-height:60px" placeholder="Kamera yerleri, kablo, uzaktan izleme..."></textarea>
+        </label>
+        <div class="row"><button class="btn accent" type="submit">İş kaydet</button></div>
+      </form>
+    </div>
+    <div class="list" id="gv-list" style="margin-top:12px"></div>
+  </div>`);
+
+  root.querySelector("#gv-form").onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const g = {
+      id: uid(),
+      no: nextGvNo(),
+      customer: String(fd.get("customer") || "").trim(),
+      phone: String(fd.get("phone") || "").trim(),
+      address: String(fd.get("address") || "").trim(),
+      camCount: Math.max(0, Math.round(num(fd.get("camCount")))),
+      dvr: String(fd.get("dvr") || "").trim(),
+      channel: String(fd.get("channel") || "").trim(),
+      fee: Math.max(0, Math.round(num(fd.get("fee")))),
+      note: String(fd.get("note") || "").trim(),
+      work: "",
+      status: "plan",
+      photos: [],
+      signature: "",
+      openedAt: new Date().toISOString(),
+    };
+    rememberCustomer(g.customer, g.phone, g.address);
+    state.guvenlik.unshift(g);
+    save();
+    render();
+  };
+
+  const list = root.querySelector("#gv-list");
+  if (!state.guvenlik.length) list.appendChild(el(`<div class="empty">Henüz güvenlik işi yok.</div>`));
+  for (const g of state.guvenlik) {
+    const st = (GV_STATUS.find(s => s.id === g.status) || {}).label || g.status;
+    const item = el(`<div class="card item">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <div class="meta">${escapeHtml(g.no)} · ${day(g.openedAt)}</div>
+          <h3>${escapeHtml(g.customer)}</h3>
+          <div class="meta">${escapeHtml(g.phone || "")}</div>
+          <div>${g.camCount || 0} kamera · ${escapeHtml(g.dvr || "DVR/NVR yok")}</div>
+          <div class="money" style="margin-top:4px">${money(g.fee)}</div>
+        </div>
+        <span class="badge ${g.status === "tamam" ? "" : "warn"}">${st}</span>
+      </div>
+      <div class="row" style="margin-top:10px">
+        ${GV_STATUS.map(s => `<button class="btn ${g.status === s.id ? "accent" : "line"}" data-st="${s.id}">${s.label}</button>`).join("")}
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" data-open>Form / imza</button>
+        <button class="btn danger" data-del>Sil</button>
+      </div>
+    </div>`);
+    item.querySelectorAll("[data-st]").forEach(btn => {
+      btn.onclick = () => { g.status = btn.getAttribute("data-st"); save(); render(); };
+    });
+    item.querySelector("[data-open]").onclick = () => { formGvId = g.id; render(); };
+    item.querySelector("[data-del]").onclick = () => {
+      if (!confirm("Bu güvenlik işi silinsin mi?")) return;
+      state.guvenlik = state.guvenlik.filter(x => x.id !== g.id);
+      save(); render();
+    };
+    list.appendChild(item);
+  }
+  return root;
+}
+
+function guvenlikForm(g) {
+  const st = (GV_STATUS.find(s => s.id === g.status) || {}).label || g.status;
+  const root = el(`<div>
+    <div class="sheet-actions no-print">
+      <button class="btn line" id="back">Listeye dön</button>
+      <button class="btn accent" id="print">Yazdır</button>
+      <button class="btn" id="wa" style="background:#128C7E">WhatsApp</button>
+    </div>
+    <div id="print-area" class="a4">
+      <img class="logo" src="logo-banner.png" alt="Usta Teknik" />
+      <div class="a4-head">
+        <div>
+          <div class="muted" style="font-size:10px;text-transform:uppercase">Usta Teknik · Güvenlik Sistemleri</div>
+          <h2>Kamera Kurulum · İşlem Tamam Belgesi</h2>
+          <div style="font-size:11px">Kurulum ve test tamamlanmıştır. Garanti 6 aydır.</div>
+        </div>
+        <div class="a4-meta">
+          <div><strong>Belge no</strong><br>${escapeHtml(g.no)}</div>
+          <div style="margin-top:6px"><strong>Tarih</strong><br>${day(g.openedAt)}</div>
+          <div style="margin-top:6px"><strong>Durum</strong><br>${escapeHtml(st)}</div>
+        </div>
+      </div>
+      <div class="a4-parties">
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase">Firma</div>
+          Usta Teknik<br>${PHONES.join("<br>")}
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase">Müşteri</div>
+          <strong>${escapeHtml(g.customer)}</strong><br>
+          ${escapeHtml(g.phone || "—")}<br>
+          ${escapeHtml(g.address || "—")}
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Özellik</th><th>Detay</th></tr></thead>
+        <tbody>
+          <tr><td>Kamera adedi</td><td>${g.camCount || 0}</td></tr>
+          <tr><td>Kayıt cihazı</td><td>${escapeHtml(g.dvr || "—")}</td></tr>
+          <tr><td>Kanal / disk</td><td>${escapeHtml(g.channel || "—")}</td></tr>
+          <tr><td>Kurulum ücreti</td><td class="right">${money(g.fee)}</td></tr>
+        </tbody>
+      </table>
+      <div class="a4-note">
+        <strong>Kurulum notu:</strong> ${escapeHtml(g.note || "—")}<br>
+        <strong>Yapılan işlem / test:</strong>
+        <div style="margin-top:4px">${escapeHtml(g.work || "—")}</div>
+        <div style="margin-top:8px">Görüntü, kayıt ve (varsa) uzaktan izleme kontrol edilmiştir. Tutarlar TL, KDV dahil değildir.</div>
+      </div>
+      <div class="a4-signs">
+        <div>Teknisyen<br><span style="font-weight:400;font-size:10px">Usta Teknik</span></div>
+        <div>Müşteri imzası
+          ${g.signature ? `<img class="sig-img" src="${g.signature}" alt="imza">` : `<div style="height:40px"></div>`}
+        </div>
+      </div>
+      <div class="a4-foot">Güvenilir Servis · Profesyonel Çözüm · ${PHONES.join(" · ")}</div>
+    </div>
+
+    <div class="complete-box no-print">
+      <strong>İşlem bitirme (servisten ayrı form)</strong>
+      <div class="grid2" style="margin-top:10px">
+        <label class="block"><span>Kamera adedi</span><input class="field" data-cam inputmode="numeric" value="${g.camCount || 0}"></label>
+        <label class="block"><span>DVR / NVR</span><input class="field" data-dvr value="${escapeHtml(g.dvr || "")}"></label>
+        <label class="block"><span>Kanal / disk</span><input class="field" data-ch value="${escapeHtml(g.channel || "")}"></label>
+        <label class="block"><span>Ücret (TL)</span><input class="field" data-fee inputmode="numeric" value="${g.fee || 0}"></label>
+        <label class="block" style="grid-column:1/-1"><span>Yapılan işlem / test sonucu</span>
+          <textarea class="field" data-work style="min-height:70px" placeholder="Kameralar çalışıyor, kayıt alıyor, şifre verildi...">${escapeHtml(g.work || "")}</textarea>
+        </label>
+      </div>
+      <div class="sig-box" style="margin-top:12px">
+        <div class="row" style="justify-content:space-between;margin-bottom:8px">
+          <strong>Müşteri tablete imza atsın</strong>
+          ${g.signature ? '<span class="badge">İmza var</span>' : '<span class="muted">İmza yok</span>'}
+        </div>
+        <canvas class="sig-canvas" id="sig-pad"></canvas>
+        <div class="row" style="margin-top:10px">
+          <button type="button" class="btn line" id="sig-clear">Temizle</button>
+          <button type="button" class="btn" id="sig-save">İmzayı kaydet</button>
+          <button type="button" class="btn accent" id="gv-complete">İşlem bitti · Formu kapat</button>
+        </div>
+      </div>
+    </div>
+    ${photoStrip(g)}
+  </div>`);
+
+  root.querySelector("#back").onclick = () => { formGvId = null; render(); };
+  root.querySelector("#print").onclick = () => doPrint();
+  root.querySelector("#wa").onclick = () => {
+    const digits = waDigits(g.phone);
+    if (!digits) { alert("Telefon yok"); return; }
+    const msg = [
+      "Usta Teknik - Güvenlik kamera",
+      "Belge: " + g.no,
+      "Müşteri: " + g.customer,
+      "Kamera: " + (g.camCount || 0),
+      "DVR: " + (g.dvr || "-"),
+      "Ücret: " + money(g.fee),
+      "Durum: " + st,
+      g.work ? ("İşlem: " + g.work) : "",
+      "Tel: " + PHONES.join(" · "),
+    ].filter(Boolean).join("\\n");
+    openExternalUrl("whatsapp://send?phone=" + digits + "&text=" + encodeURIComponent(msg)); setTimeout(function(){ openExternalUrl("https://wa.me/" + digits + "?text=" + encodeURIComponent(msg)); }, 500);
+  };
+  root.querySelector("[data-cam]").onchange = (e) => { g.camCount = Math.max(0, Math.round(num(e.target.value))); save(); };
+  root.querySelector("[data-dvr]").onchange = (e) => { g.dvr = e.target.value; save(); };
+  root.querySelector("[data-ch]").onchange = (e) => { g.channel = e.target.value; save(); };
+  root.querySelector("[data-fee]").onchange = (e) => { g.fee = Math.max(0, Math.round(num(e.target.value))); save(); render(); };
+  root.querySelector("[data-work]").onchange = (e) => { g.work = e.target.value; save(); };
+  wirePhotos(root, g);
+  const pad = wireSignaturePad(root.querySelector("#sig-pad"), g);
+  root.querySelector("#sig-clear").onclick = () => { pad && pad.clear(); g.signature = ""; save(); };
+  root.querySelector("#sig-save").onclick = () => {
+    const data = pad && pad.save();
+    if (!data) { alert("İmza alınamadı"); return; }
+    g.signature = data; g.signedAt = new Date().toISOString(); save(); alert("İmza kaydedildi"); render();
+  };
+  root.querySelector("#gv-complete").onclick = () => {
+    if (pad) {
+      const data = pad.save();
+      if (data) { g.signature = data; g.signedAt = new Date().toISOString(); }
+    }
+    if (!g.signature && !confirm("İmza yok. Yine de işlem bitti?")) return;
+    g.status = "tamam";
+    // kasa gelir
+    if (g.fee > 0) {
+      const id = g.cashId || uid();
+      g.cashId = id;
+      pushCash({
+        id,
+        kind: "gelir",
+        category: "Güvenlik",
+        title: [g.no, g.customer, "Kamera kurulum"].filter(Boolean).join(" · "),
+        amount: g.fee,
+      });
+    }
+    save();
+    alert("İşlem bitti belgesi hazır. Yazdırabilirsiniz.");
+    render();
+  };
+  return root;
+}
+
+
+function viewIkinciEl() {
+  if (!Array.isArray(state.ikinciEl)) state.ikinciEl = [];
+  const root = el(`<div>
+    <div class="card">
+      <h2 style="margin:0 0 10px">2. El ürün ekle</h2>
+      <form id="el2-form" class="grid2">
+        <label class="block"><span>Ürün adı</span><input class="field" name="title" required placeholder="Örn. Samsung TV 55"></label>
+        <label class="block"><span>Satış fiyatı (TL)</span><input class="field" name="price" inputmode="numeric" required value="0"></label>
+        <label class="block"><span>Alış / maliyet (TL)</span><input class="field" name="cost" inputmode="numeric" value="0"></label>
+        <label class="block"><span>Durum</span>
+          <select class="field" name="status">
+            <option value="satilik">Satılık</option>
+            <option value="rezerve">Rezerve</option>
+            <option value="satildi">Satıldı</option>
+          </select>
+        </label>
+        <label class="block" style="grid-column:1/-1"><span>Açıklama</span>
+          <textarea class="field" name="note" placeholder="Model, arıza, not..." style="min-height:70px"></textarea>
+        </label>
+        <label class="block" style="grid-column:1/-1"><span>Fotoğraflar (en fazla 6)</span>
+          <input class="field" type="file" name="photos" accept="image/*" multiple>
+        </label>
+        <div class="row"><button class="btn accent" type="submit">2. El kaydet</button></div>
+      </form>
+    </div>
+    <div class="list" id="el2-list" style="margin-top:12px"></div>
+  </div>`);
+
+  root.querySelector("#el2-form").onsubmit = async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const title = String(fd.get("title") || "").trim();
+    if (!title) return;
+    const item = {
+      id: uid(),
+      title,
+      price: Math.max(0, Math.round(num(fd.get("price")))),
+      cost: Math.max(0, Math.round(num(fd.get("cost")))),
+      status: String(fd.get("status") || "satilik"),
+      note: String(fd.get("note") || "").trim(),
+      photos: [],
+      at: new Date().toISOString(),
+    };
+    const files = e.target.photos && e.target.photos.files;
+    if (files && files.length) {
+      for (const f of Array.from(files).slice(0, 6)) {
+        if (!f.type || !f.type.startsWith("image/")) continue;
+        try {
+          const data = await compressPhoto(f, 1024, 0.8);
+          if (data && data.indexOf("data:image") === 0) item.photos.push({ id: uid(), data });
+        } catch (err) { console && console.log && console.log(err); }
+      }
+    }
+    state.ikinciEl.unshift(item);
+    save();
+    render();
+  };
+
+  const list = root.querySelector("#el2-list");
+  if (!state.ikinciEl.length) {
+    list.appendChild(el(`<div class="empty">Henüz 2. el ürün yok. Yukarıdan ekleyin.</div>`));
+  }
+  for (const it of state.ikinciEl) {
+    const stLabel = it.status === "satildi" ? "Satıldı" : it.status === "rezerve" ? "Rezerve" : "Satılık";
+    const thumbs = (it.photos || []).map(ph =>
+      `<img class="el2-thumb" src="${ph.data}" alt="2.el" data-full="${ph.data}">`
+    ).join("");
+    const card = el(`<div class="card item">
+      <div class="row" style="justify-content:space-between;gap:12px">
+        <div style="min-width:0;flex:1">
+          <div class="meta">${day(it.at)} · <span class="badge ${it.status === "satilik" ? "warn" : ""}">${stLabel}</span></div>
+          <h3>${escapeHtml(it.title)}</h3>
+          <div class="money" style="margin-top:4px">${money(it.price)}</div>
+          ${it.cost ? `<div class="muted">Maliyet: ${money(it.cost)}</div>` : ""}
+          ${it.note ? `<div class="muted" style="margin-top:6px">${escapeHtml(it.note)}</div>` : ""}
+        </div>
+      </div>
+      <div class="el2-photos">${thumbs || '<span class="muted">Foto yok</span>'}</div>
+      <div class="row" style="margin-top:10px">
+        <label class="btn line" style="display:inline-flex">
+          Foto ekle
+          <input type="file" accept="image/*" multiple hidden data-el2-photo>
+        </label>
+        <label class="block" style="width:120px"><span>Fiyat</span>
+          <input class="field" data-el2-price inputmode="numeric" value="${it.price || 0}">
+        </label>
+        <select class="field" data-el2-status style="width:120px">
+          <option value="satilik" ${it.status==="satilik"?"selected":""}>Satılık</option>
+          <option value="rezerve" ${it.status==="rezerve"?"selected":""}>Rezerve</option>
+          <option value="satildi" ${it.status==="satildi"?"selected":""}>Satıldı</option>
+        </select>
+        <button class="btn danger" data-el2-del>Sil</button>
+      </div>
+    </div>`);
+
+    card.querySelector("[data-el2-price]").onchange = (e) => {
+      it.price = Math.max(0, Math.round(num(e.target.value)));
+      save(); render();
+    };
+    card.querySelector("[data-el2-status]").onchange = (e) => {
+      it.status = e.target.value;
+      // sold -> optional cash entry
+      if (it.status === "satildi" && (it.price || 0) > 0) {
+        const id = it.cashId || uid();
+        it.cashId = id;
+        pushCash({
+          id,
+          kind: "gelir",
+          category: "2. El",
+          title: "2. El satış · " + (it.title || ""),
+          amount: it.price || 0,
+        });
+      }
+      save(); render();
+    };
+    card.querySelector("[data-el2-photo]").onchange = async (e) => {
+      const files = e.target.files;
+      if (!files || !files.length) return;
+      if (!it.photos) it.photos = [];
+      for (const f of Array.from(files).slice(0, 6)) {
+        if (it.photos.length >= 8) break;
+        if (!f.type || !f.type.startsWith("image/")) continue;
+        try {
+          const data = await compressPhoto(f, 1024, 0.8);
+          if (data && data.indexOf("data:image") === 0) it.photos.push({ id: uid(), data });
+        } catch (err) {}
+      }
+      save(); render();
+    };
+    card.querySelector("[data-el2-del]").onclick = () => {
+      if (!confirm("Bu 2. el ürün silinsin mi?")) return;
+      state.ikinciEl = state.ikinciEl.filter(x => x.id !== it.id);
+      save(); render();
+    };
+        card.querySelectorAll(".el2-thumb").forEach((im) => {
+      im.onclick = () => openPhotoBig(im.getAttribute("data-full") || im.src);
+      im.onerror = () => { im.style.background = "#eee"; im.alt = "Resim yuklenemedi"; };
+    });
+list.appendChild(card);
+  }
+  return root;
+}
+
+
+function viewTeklif() {
+  if (formQuoteId) {
+    const q = state.quotes.find(x => x.id === formQuoteId);
+    if (q) return quoteForm(q);
+  }
+  const root = el(`<div>
+    <div class="row" style="margin-bottom:12px">
+      <button class="btn accent" id="newq">Yeni teklif</button>
+    </div>
+    <div class="list" id="q-list"></div>
+  </div>`);
+  root.querySelector("#newq").onclick = () => {
+    const q = {
+      id: uid(), no: nextQuoteNo(), customer: "", phone: "", address: "", place: "",
+      note: "Fiyatlara KDV dahil değildir.", validDays: 15,
+      openedAt: new Date().toISOString(),
+      lines: [{ name: "Montaj işçiliği", qty: 1, price: 0 }],
+    };
+    state.quotes.unshift(q);
+    formQuoteId = q.id;
+    save(); render();
+  };
+  const list = root.querySelector("#q-list");
+  if (!state.quotes.length) list.appendChild(el(`<div class="empty">Henüz teklif yok.</div>`));
+  for (const q of state.quotes) {
+    const total = q.lines.reduce((s, l) => s + l.qty * l.price, 0);
+    const item = el(`<div class="card item row" style="justify-content:space-between">
+      <div>
+        <h3>${escapeHtml(q.customer || "Müşteri yazılmadı")}</h3>
+        <div class="meta">${escapeHtml(q.no)} · ${day(q.openedAt)} · ${money(total)}</div>
+      </div>
+      <div class="row">
+        <button class="btn line" data-open>Aç</button>
+        <button class="btn quiet" data-del>Sil</button>
+      </div>
+    </div>`);
+    item.querySelector("[data-open]").onclick = () => { formQuoteId = q.id; render(); };
+    item.querySelector("[data-del]").onclick = () => {
+      state.quotes = state.quotes.filter(x => x.id !== q.id);
+      save(); render();
+    };
+    list.appendChild(item);
+  }
+  return root;
+}
+
+function quoteForm(q) {
+  const total = q.lines.reduce((s, l) => s + l.qty * l.price, 0);
+  const root = el(`<div>
+    <div class="sheet-actions no-print">
+      <button class="btn line" id="back">Listeye dön</button>
+      <button class="btn line" id="addline">Kalem ekle</button>
+      <button class="btn accent" id="print">Yazdır</button>
+    </div>
+    <div class="card no-print" style="margin-bottom:12px">
+      <strong>Stoktan kalem ekle</strong>
+      <div class="grid2" style="margin-top:10px">
+        <label class="block"><span>Parça</span>
+          <select class="field" id="q-stock">
+            <option value="">— stoktan seç —</option>
+            ${state.parts.map(p => `<option value="${p.id}">${escapeHtml(p.name)} · stok ${p.stock} · ${money(p.price)}</option>`).join("")}
+          </select>
+        </label>
+        <label class="block"><span>Adet</span>
+          <input class="field" id="q-stock-qty" inputmode="numeric" value="1">
+        </label>
+        <div class="row" style="align-items:flex-end">
+          <button type="button" class="btn accent" id="q-from-stock">Stoktan ekle</button>
+        </div>
+      </div>
+      <div class="muted" style="margin-top:6px;font-size:.85rem">Teklif için stok düşmez; sadece fiyat ve isim gelir.</div>
+    </div>
+    <div class="card no-print grid2">
+      <label class="block"><span>Müşteri</span><input class="field" data-c value="${escapeHtml(q.customer)}"></label>
+      <label class="block"><span>Telefon</span><input class="field" data-p value="${escapeHtml(q.phone)}"></label>
+      <label class="block"><span>Adres</span><input class="field" data-a value="${escapeHtml(q.address)}"></label>
+      <label class="block"><span>Montaj yeri</span><input class="field" data-pl value="${escapeHtml(q.place)}"></label>
+    </div>
+    <div id="print-area" class="a4">
+      <img class="logo" src="logo-banner.png" alt="Usta Teknik" />
+      <div class="a4-head">
+        <div><h2>Fiyat Teklif Formu</h2></div>
+        <div class="a4-meta"><strong>${escapeHtml(q.no)}</strong><br>${day(q.openedAt)}<br>${q.validDays} gün geçerli</div>
+      </div>
+      <div class="a4-parties">
+        <div><strong>Usta Teknik</strong><br>${PHONES.join(" · ")}</div>
+        <div><strong>${escapeHtml(q.customer || "—")}</strong><br>${escapeHtml(q.phone || "")}<br>${escapeHtml(q.address || "")}<br>${escapeHtml(q.place || "")}</div>
+      </div>
+      <table>
+        <thead><tr><th>#</th><th>Kalem</th><th class="right">Adet</th><th class="right">Birim</th><th class="right">Tutar</th><th></th></tr></thead>
+        <tbody id="qlines"></tbody>
+      </table>
+      <div class="a4-total"><p><span>Genel toplam</span><span>${money(total)}</span></p></div>
+      <div class="a4-note">${escapeHtml(q.note || "")}<br>Tutarlar TL. KDV dahil değildir.</div>
+      <div class="a4-signs"><div>Teklifi veren</div><div>Müşteri onayı</div></div>
+    </div>
+  </div>`);
+  const tbody = root.querySelector("#qlines");
+  q.lines.forEach((l, i) => {
+    const tr = el(`<tr>
+      <td>${i + 1}</td>
+      <td><input class="field" data-n value="${escapeHtml(l.name)}"></td>
+      <td><input class="field right" data-q inputmode="numeric" value="${l.qty}"></td>
+      <td><input class="field right" data-pr inputmode="numeric" value="${l.price}"></td>
+      <td class="right">${money(l.qty * l.price)}</td>
+      <td><button type="button" class="btn quiet" data-ql-del>Sil</button></td>
+    </tr>`);
+    tr.querySelector("[data-n]").onchange = (e) => { l.name = e.target.value; save(); };
+    tr.querySelector("[data-q]").onchange = (e) => { l.qty = Math.max(1, Math.round(num(e.target.value))); save(); render(); };
+    tr.querySelector("[data-pr]").onchange = (e) => { l.price = Math.max(0, Math.round(num(e.target.value))); save(); render(); };
+    tr.querySelector("[data-ql-del]").onclick = () => { q.lines.splice(i, 1); save(); render(); };
+    tbody.appendChild(tr);
+  });
+  root.querySelector("#back").onclick = () => { formQuoteId = null; render(); };
+  root.querySelector("#print").onclick = () => doPrint();
+  root.querySelector("#addline").onclick = () => { q.lines.push({ name: "", qty: 1, price: 0 }); save(); render(); };
+  root.querySelector("#q-from-stock").onclick = () => {
+    const id = root.querySelector("#q-stock").value;
+    const qty = Math.max(1, Math.round(num(root.querySelector("#q-stock-qty").value || 1)));
+    if (!id) { alert("Stoktan parça seçin"); return; }
+    const p = state.parts.find(x => x.id === id);
+    if (!p) return;
+    q.lines.push({ name: p.name, qty, price: p.price || 0, partId: p.id });
+    save(); render();
+  };
+  root.querySelector("[data-c]").onchange = (e) => { q.customer = e.target.value; save(); };
+  root.querySelector("[data-p]").onchange = (e) => { q.phone = e.target.value; save(); };
+  root.querySelector("[data-a]").onchange = (e) => { q.address = e.target.value; save(); };
+  root.querySelector("[data-pl]").onchange = (e) => { q.place = e.target.value; save(); };
+  return root;
+}
+
+
+
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("dosya okunamadi"));
+    reader.readAsDataURL(file);
+  });
+}
+function compressPhoto(file, maxSide, quality) {
+  // Eski Android WebView: canvas bozulup yesil/beyaz cikiyor.
+  // Once orijinali dene; sadece cok buyukse kucult.
+  return readFileAsDataURL(file).then((raw) => {
+    if (!raw || typeof raw !== "string" || raw.indexOf("data:image") !== 0) {
+      return Promise.reject(new Error("gecersiz resim"));
+    }
+    // Kucuk JPEG/PNG ise canvas kullanma
+    const isJpeg = /image\/jpe?g/i.test(file.type || "") || raw.indexOf("data:image/jpeg") === 0;
+    const isPng = /image\/png/i.test(file.type || "") || raw.indexOf("data:image/png") === 0;
+    if ((isJpeg || isPng) && file.size && file.size < 900000) {
+      return raw;
+    }
+    maxSide = maxSide || 1024;
+    quality = quality || 0.8;
+    return new Promise((resolve) => {
+      const img = new Image();
+      let done = false;
+      const finish = (val) => { if (!done) { done = true; resolve(val || raw); } };
+      img.onload = () => {
+        try {
+          let w = img.naturalWidth || img.width || 1;
+          let h = img.naturalHeight || img.height || 1;
+          if (w < 2 || h < 2) { finish(raw); return; }
+          const scale = Math.min(1, maxSide / Math.max(w, h));
+          w = Math.max(1, Math.round(w * scale));
+          h = Math.max(1, Math.round(h * scale));
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) { finish(raw); return; }
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, w, h);
+          ctx.drawImage(img, 0, 0, w, h);
+          let out = null;
+          try { out = canvas.toDataURL("image/jpeg", quality); } catch (e) { out = null; }
+          if (out && out.length > 100 && out.indexOf("data:image") === 0) finish(out);
+          else finish(raw);
+        } catch (e) { finish(raw); }
+      };
+      img.onerror = () => finish(raw);
+      setTimeout(() => finish(raw), 8000);
+      img.src = raw;
+    });
+  });
+}
+
+function wireSignaturePad(canvas, job) {
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
+  function resize() {
+    const w = canvas.clientWidth || 320;
+    const h = canvas.clientHeight || 180;
+    canvas.width = Math.floor(w * ratio);
+    canvas.height = Math.floor(h * ratio);
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "#111";
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, w, h);
+    if (job.signature) {
+      const im = new Image();
+      im.onload = () => ctx.drawImage(im, 0, 0, w, h);
+      im.src = job.signature;
+    }
+  }
+  resize();
+  let drawing = false;
+  let last = null;
+  function pos(e) {
+    const r = canvas.getBoundingClientRect();
+    const src = e.touches && e.touches[0] ? e.touches[0] : e;
+    return { x: src.clientX - r.left, y: src.clientY - r.top };
+  }
+  function start(e) {
+    e.preventDefault();
+    drawing = true;
+    last = pos(e);
+    canvas.classList.add("active");
+  }
+  function move(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const p = pos(e);
+    ctx.beginPath();
+    ctx.moveTo(last.x, last.y);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    last = p;
+  }
+  function end(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    drawing = false;
+    last = null;
+    canvas.classList.remove("active");
+  }
+  canvas.addEventListener("mousedown", start);
+  canvas.addEventListener("mousemove", move);
+  canvas.addEventListener("mouseup", end);
+  canvas.addEventListener("mouseleave", end);
+  canvas.addEventListener("touchstart", start, { passive: false });
+  canvas.addEventListener("touchmove", move, { passive: false });
+  canvas.addEventListener("touchend", end);
+  canvas.addEventListener("touchcancel", end);
+  return {
+    clear() {
+      const w = canvas.clientWidth || 320;
+      const h = canvas.clientHeight || 180;
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, w, h);
+    },
+    save() {
+      try {
+        return canvas.toDataURL("image/png");
+      } catch (e) {
+        return null;
+      }
+    }
+  };
+}
+
+function openPhotoBig(src) {
+  if (!src) return;
+  const box = document.createElement("div");
+  box.className = "photo-lightbox";
+  const im = document.createElement("img");
+  im.src = src;
+  im.alt = "Foto";
+  im.onerror = function () { im.replaceWith(document.createTextNode("Resim acilamadi")); };
+  box.appendChild(im);
+  box.onclick = () => box.remove();
+  document.body.appendChild(box);
+}
+
+
+function photoStrip(job) {
+  const photos = job.photos || [];
+  const rows = photos.map((ph, i) =>
+    `<div class="photo-item">
+      <img src="${ph.data}" alt="Cihaz ${i + 1}" data-full="${ph.data}" class="ph-thumb" />
+      <button type="button" class="btn quiet photo-del" data-ph="${ph.id}">Sil</button>
+    </div>`
+  ).join("");
+  return `<div class="photo-box no-print">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px">
+      <strong>Cihaz fotoğrafları</strong>
+      <span class="muted">${photos.length}/8</span>
+    </div>
+    <div class="photo-grid">${rows || '<div class="muted">Henüz foto yok.</div>'}</div>
+    <div class="row" style="margin-top:10px">
+      <button type="button" class="btn accent" data-photo-btn>Foto ekle / çek</button>
+      <input type="file" accept="image/*" multiple data-photo-input style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+    </div>
+    <div class="muted" style="margin-top:6px;font-size:.85rem">Yazdırılan forma çıkmaz.</div>
+  </div>`;
+}
+function wirePhotos(root, job) {
+  root.querySelectorAll(".ph-thumb").forEach((im) => {
+    im.onclick = () => openPhotoBig(im.getAttribute("data-full") || im.src);
+    im.onerror = () => { im.style.background = "#eee"; };
+  });
+  const input = root.querySelector("[data-photo-input]");
+  const btn = root.querySelector("[data-photo-btn]");
+  if (btn && input) {
+    btn.onclick = () => {
+      try { input.value = ""; } catch (e) {}
+      input.click();
+    };
+  }
+  if (input) {
+    input.onchange = async (e) => {
+      const files = e.target.files;
+      if (!files || !files.length) return;
+      btn && (btn.disabled = true);
+      await addJobPhotos(job, files);
+    };
+  }
+  root.querySelectorAll(".photo-del").forEach((btn) => {
+    btn.onclick = () => {
+      const id = btn.getAttribute("data-ph");
+      job.photos = (job.photos || []).filter((x) => x.id !== id);
+      save();
+      render();
+    };
+  });
+}
+
+
+
+function waDigits(phone) {
+  let d = String(phone || "").replace(/\D/g, "");
+  if (!d) return "";
+  if (d.startsWith("00")) d = d.slice(2);
+  if (d.startsWith("0")) d = "90" + d.slice(1);
+  if (d.length === 10 && d.startsWith("5")) d = "90" + d;
+  if (d.length === 11 && d.startsWith("05")) d = "9" + d.slice(1);
+  return d;
+}
+function openExternalUrl(url) {
+  try {
+    if (window.UstaApp && typeof window.UstaApp.openUrl === "function") {
+      window.UstaApp.openUrl(String(url));
+      return;
+    }
+  } catch (e) {}
+  try {
+    // WhatsApp intent (Android)
+    if (url.indexOf("wa.me") >= 0 || url.indexOf("whatsapp") >= 0) {
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      // yedek
+      setTimeout(function () {
+        try { window.location.href = url; } catch (e2) {}
+      }, 300);
+      return;
+    }
+  } catch (e) {}
+  try { window.location.href = url; } catch (e3) {}
+}
+function openWhatsAppForJob(job) {
+  const digits = waDigits(job.phone);
+  if (!digits) {
+    alert("Müşteri telefonu yok. Önce telefon girin.");
+    return;
+  }
+  const text = encodeURIComponent(buildWhatsAppMessage(job));
+  // whatsapp:// daha iyi açılır bazı cihazlarda
+  const intentUrl = "whatsapp://send?phone=" + digits + "&text=" + text;
+  const webUrl = "https://wa.me/" + digits + "?text=" + text;
+  try {
+    if (window.UstaApp && typeof window.UstaApp.openWhatsApp === "function") {
+      window.UstaApp.openWhatsApp(digits, buildWhatsAppMessage(job));
+      return;
+    }
+  } catch (e) {}
+  openExternalUrl(intentUrl);
+  setTimeout(function () { openExternalUrl(webUrl); }, 600);
+}
+
+
+function doPrint() {
+  try {
+    if (window.UstaPrint && typeof window.UstaPrint.print === 'function') {
+      window.UstaPrint.print();
+      return;
+    }
+  } catch (e) {}
+  window.print();
+}
+function escapeHtml(s) {
+  return String(s || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+
+async function boot() {
+  let remote = null;
+  if (API) {
+    remote = await loadFromServer();
+    if (remote) {
+      const local = load();
+      const rAt = remote.updatedAt || 0;
+      const lAt = local.updatedAt || 0;
+      if (rAt >= lAt) state = normalizeState(remote);
+      else {
+        state = local;
+        await saveToServer(state);
+      }
+    }
+    // ortak cihaz: periyodik cek
+    if (syncTimer) clearInterval(syncTimer);
+    syncTimer = setInterval(async function () {
+      const remote = await loadFromServer();
+      if (!remote) return;
+      const rAt = remote.updatedAt || 0;
+      if (rAt > (state.updatedAt || 0)) {
+        state = normalizeState(remote);
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+        render();
+      }
+    }, 4000);
+  }
+  render();
+  // baslikta ortak mod
+  try {
+    const brand = document.querySelector(".brand div div");
+    if (brand && API) brand.textContent = "Ortak panel · telefon + tablet";
+  } catch (e) {}
+}
+boot();
+
+</script>
+</body>
+</html>
